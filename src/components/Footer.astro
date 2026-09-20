@@ -1,0 +1,48 @@
+---
+import { links } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="page foot__inner">
+    <p class="meta foot__rights">© {year} Bárbara Martínez Calvo</p>
+    <ul class="foot__links meta">
+      <li><a href={`mailto:${links.email}`}>Email</a></li>
+      <li><a href={links.linkedin} rel="me noopener">LinkedIn</a></li>
+      <li><a href={links.github} rel="me noopener">GitHub</a></li>
+      <li><a href={links.instagram} rel="me noopener">Instagram</a></li>
+      <li><a href={links.etsy} rel="noopener">Etsy</a></li>
+      <li><a href={links.spotify} rel="me noopener">Spotify</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    margin-block-start: var(--section-gap);
+    border-block-start: 1px solid var(--rule);
+    padding-block: 2rem 3rem;
+  }
+
+  .foot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+
+  .foot__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.35rem;
+  }
+
+  .foot a {
+    text-decoration: none;
+  }
+
+  .foot a:hover {
+    text-decoration: underline;
+  }
+</style>

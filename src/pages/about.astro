@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+import Frame from '../components/Frame.astro';
+import { links } from '../data/site';
+
+const timeline = [
+  { years: '2021 — now', what: 'Wikimedia Foundation', note: 'Codex, then the Editing team' },
+  { years: '2021', what: 'Domestika', note: 'Cross-platform design system' },
+  { years: '2018 — 2020', what: 'Bankinter', note: 'Design system, web and app' },
+  { years: '2016 — 2018', what: 'Opentrends', note: 'End-to-end product design' },
+  { years: '2015 — 2016', what: 'Hamilton Global · McCann', note: 'Graphic design' },
+];
+
+const study = [
+  { what: "Master's in UX Design", where: 'UOC', years: '2018 — 2019' },
+  { what: "Master's in Design and Communication", where: 'ELISAVA', years: '2014 — 2015' },
+  { what: "Bachelor's in Fine Arts", where: 'Universidad de Salamanca', years: '2009 — 2014' },
+];
+---
+
+<Base
+  title="About"
+  description="Bárbara Martínez Calvo — senior product designer in Madrid. Fine Arts, then design systems, accessibility and internationalization."
+>
+  <div class="page about">
+    <div class="about__portrait">
+      <Frame ratio="4 / 5" alt="Bárbara Martínez" />
+    </div>
+
+    <div class="about__text">
+      <p class="label">About</p>
+      <h1>A designer who came in through the art school door.</h1>
+
+      <div class="flow about__body">
+        <p>
+          I&rsquo;m a senior product designer in Madrid. For the last decade I&rsquo;ve
+          worked somewhere between the interface and the system underneath it — and for
+          the last four years, on software that several hundred million people use without
+          ever thinking about who designed it.
+        </p>
+        <p>
+          I started in Fine Arts at the Universidad de Salamanca. It&rsquo;s an odd place
+          to begin a career in software, and it&rsquo;s the reason I still reach for
+          composition, proportion and colour before I reach for a component. A
+          master&rsquo;s at ELISAVA took me into design and communication; a
+          master&rsquo;s at the UOC took me the rest of the way into UX.
+        </p>
+        <p>
+          The middle years were agency and client work in Barcelona, and then two years at
+          Opentrends designing end to end — research, wireframes, prototypes, delivery —
+          for online banking, automotive, food and education. A different sector every few
+          months is a fast way to learn that the method transfers and the assumptions
+          never do.
+        </p>
+        <p>
+          Then design systems, three times over. Bankinter, where consistency is a
+          question of trust. Domestika, where the same system had to feel right on web,
+          Android and iOS at once. And since 2021 the Wikimedia Foundation, where I helped
+          build <a href="/work/codex">Codex</a>{' '}&mdash; a design system for a project written in
+          more than 300 languages, maintained largely by volunteers, and held to
+          accessibility standards by default rather than by review.
+        </p>
+        <p>
+          Accessibility and internationalization are the two constraints I keep choosing.
+          They are usually treated as a cost. In practice they are the most reliable
+          design brief I know: if a component survives right-to-left Arabic, a German
+          compound noun, a screen reader and a keyboard, it is simply a better component.
+        </p>
+        <p>
+          I&rsquo;m now on Wikimedia&rsquo;s <a href="/work/edit-check">Editing team</a>,
+          working on the tools that decide whether someone&rsquo;s first contribution to
+          Wikipedia survives its first hour.
+        </p>
+        <p>
+          In 2024 I taught the design systems module of the UX Design master&rsquo;s
+          programme at Nuclio School, which remains the best way I&rsquo;ve found to
+          discover what I actually believe about any of this.
+        </p>
+        <p>
+          Outside product work I draw, and sell the results as{' '}
+          <a href="/illustration">Be Mart</a>. I&rsquo;m also an unreasonable listener of
+          music — the kind who checks the credits.
+        </p>
+      </div>
+
+      <p class="meta about__cv">
+        <a href={links.cv} download>Download CV (PDF)</a>
+        <a href={links.linkedin} rel="noopener">LinkedIn</a>
+      </p>
+    </div>
+  </div>
+
+  <section class="page section">
+    <h2 id="where-heading">Where I&rsquo;ve worked</h2>
+    <ul class="rows" aria-labelledby="where-heading">
+      {
+        timeline.map((t) => (
+          <li class="row">
+            <p class="meta row__years">{t.years}</p>
+            <p class="row__what">{t.what}</p>
+            <p class="meta row__note">{t.note}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="page section">
+    <h2 id="study-heading">What I studied</h2>
+    <ul class="rows" aria-labelledby="study-heading">
+      {
+        study.map((s) => (
+          <li class="row">
+            <p class="meta row__years">{s.years}</p>
+            <p class="row__what">{s.what}</p>
+            <p class="meta row__note">{s.where}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    padding-block-start: clamp(1.5rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+
+  @media (min-width: 52rem) {
+    .about {
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .about__portrait {
+      position: sticky;
+      top: 2.5rem;
+    }
+  }
+
+  .about h1 {
+    font-size: clamp(1.85rem, 1.3rem + 2vw, 2.9rem);
+    margin-block-start: 0.6rem;
+  }
+
+  .about__body {
+    margin-block-start: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .about__cv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin-block-start: 2rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--rule);
+  }
+
+  /* --- Rows -------------------------------------------------------- */
+
+  .rows {
+    margin-block-start: 1.5rem;
+    border-block-start: 1px solid var(--rule);
+  }
+
+  .row {
+    padding-block: 1.1rem;
+    border-block-end: 1px solid var(--rule-soft);
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  @media (min-width: 44rem) {
+    .row {
+      grid-template-columns: 9rem minmax(0, 1fr) minmax(0, 18rem);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  .row__what {
+    font-weight: 500;
+    font-size: clamp(1.02rem, 0.98rem + 0.25vw, 1.15rem);
+  }
+</style>

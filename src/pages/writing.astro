@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('writing')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
+
+const year = (d: string) => d.slice(0, 4);
+---
+
+<Base
+  title="Writing & Talks"
+  description="Articles, talks, a podcast and teaching — mostly about design systems, accessibility and designing in the open."
+>
+  <PageHead eyebrow="Writing & Talks" title="Thinking out loud, on purpose.">
+    <p class="lede">
+      Working in the open means the reasoning gets published too. Articles, talks, a
+      podcast and a term of teaching — mostly about design systems and what it takes to
+      keep one honest.
+    </p>
+  </PageHead>
+
+  <div class="page">
+    <ul class="notes">
+      {
+        entries.map((entry) => (
+          <li class="note">
+            <p class="meta note__year">{year(entry.data.date)}</p>
+            <div class="note__main">
+              <p class="note__title">
+                <a href={entry.data.href} rel="noopener">
+                  {entry.data.title}
+                </a>
+              </p>
+              <p class="note__blurb">{entry.data.blurb}</p>
+            </div>
+            <p class="meta note__where">
+              {entry.data.kind} &middot; {entry.data.venue}
+              {entry.data.lang !== 'English' && <span> &middot; in {entry.data.lang}</span>}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .notes {
+    padding-block-start: 0.5rem;
+  }
+
+  .note {
+    padding-block: clamp(1.5rem, 3vw, 2rem);
+    border-block-end: 1px solid var(--rule-soft);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 52rem) {
+    .note {
+      grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 16rem);
+      gap: 2rem;
+      align-items: start;
+    }
+  }
+
+  .note__title {
+    font-size: clamp(1.12rem, 1rem + 0.6vw, 1.4rem);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  .note__title a {
+    text-decoration: none;
+  }
+
+  .note__title a::after {
+    content: ' ↗';
+    font-size: 0.75em;
+    vertical-align: 0.1em;
+  }
+
+  .note__title a:hover {
+    text-decoration: underline;
+  }
+
+  .note__blurb {
+    margin-block-start: 0.5rem;
+  }
+</style>

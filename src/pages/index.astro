@@ -1,0 +1,359 @@
+---
+import Base from '../layouts/Base.astro';
+import Frame from '../components/Frame.astro';
+import { getCollection } from 'astro:content';
+import { links } from '../data/site';
+
+const work = (await getCollection('work'))
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const writing = (await getCollection('writing'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 3);
+
+const systems = [
+  { org: 'Bankinter', what: 'A bank', years: '2018 — 2020' },
+  { org: 'Domestika', what: 'A creative marketplace', years: '2021' },
+  { org: 'Wikimedia', what: 'An open encyclopedia', years: '2021 — 2025' },
+];
+---
+
+<Base>
+  <!-- Hero -->
+  <section class="page hero">
+    <h1>Hola! I&rsquo;m Bárbara Martínez</h1>
+
+    <div class="flow hero__body">
+      <p class="lede">
+        I&rsquo;m a product designer based in Madrid, currently working at the{' '}
+        <a href="https://wikimediafoundation.org/">Wikimedia Foundation</a> on the{' '}
+        <a href="https://www.mediawiki.org/wiki/Editing_team">Editing team</a>.
+      </p>
+      <p>
+        I design products and systems that make complexity feel simple. With expertise in
+        design systems, accessibility and internationalization, I focus on creating
+        inclusive tools that help teams scale and make technology more human.
+      </p>
+      <p class="quote">Tools change. Intention doesn&rsquo;t.</p>
+    </div>
+  </section>
+
+  <!-- The through-line -->
+  <section class="page section">
+    <p class="label">A through-line</p>
+    <h2 class="thesis__head">Three design systems, three worlds.</h2>
+    <p class="thesis__body">
+      A bank. A creative learning marketplace. An encyclopedia written by volunteers in
+      more than 300 languages. Same craft each time and almost nothing else in common —
+      which turns out to be the fastest way to learn what a design system really is
+      underneath the components.
+    </p>
+
+    <ul class="systems">
+      {
+        systems.map((s) => (
+          <li class="systems__item">
+            <p class="systems__org mono">{s.org}</p>
+            <p class="systems__what">{s.what}</p>
+            <p class="meta">{s.years}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Selected work -->
+  <section class="page section">
+    <div class="head-row">
+      <h2 id="work-heading">Selected work</h2>
+      <a class="meta head-row__more" href="/work">All work &rarr;</a>
+    </div>
+
+    <ul class="cases" aria-labelledby="work-heading">
+      {
+        work.map((entry) => (
+          <li class="case">
+            <a class="case__link" href={`/work/${entry.id}`}>
+              <div class="case__text">
+                <h3 class="case__title">{entry.data.title}</h3>
+                <p class="case__tagline">{entry.data.tagline}</p>
+                <p class="meta case__meta">
+                  {entry.data.org} &middot; {entry.data.years}
+                </p>
+              </div>
+              <div class="case__thumb">
+                <Frame
+                  src={entry.data.cover}
+                  alt={entry.data.coverAlt ?? ''}
+                  ratio="16 / 10"
+                />
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Writing & talks -->
+  <section class="page section">
+    <div class="head-row">
+      <h2 id="writing-heading">Writing &amp; Talks</h2>
+      <a class="meta head-row__more" href="/writing">Everything &rarr;</a>
+    </div>
+
+    <ul class="notes" aria-labelledby="writing-heading">
+      {
+        writing.map((entry) => (
+          <li class="note">
+            <p class="meta note__kind">{entry.data.kind}</p>
+            <p class="note__title">
+              <a href={entry.data.href} rel="noopener">
+                {entry.data.title}
+              </a>
+            </p>
+            <p class="meta">{entry.data.venue}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Illustration -->
+  <section class="page section">
+    <div class="aside">
+      <div class="flow aside__text">
+        <p class="label">Elsewhere</p>
+        <h2>Be Mart</h2>
+        <p>
+          I studied Fine Arts before I studied design, and I never really stopped drawing.
+          Be Mart is where the illustration lives — prints, cards and commissions, sold
+          through a small shop I run myself.
+        </p>
+        <p class="meta aside__links">
+          <a href="/illustration">See the work &rarr;</a>
+          <a href={links.instagram} rel="noopener">Instagram</a>
+          <a href={links.etsy} rel="noopener">Etsy</a>
+        </p>
+      </div>
+      <div class="aside__art">
+        <Frame ratio="4 / 5" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block-start: clamp(2rem, 6vw, 5rem);
+  }
+
+  .hero__body {
+    margin-block-start: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .hero .quote {
+    margin-block-start: 2rem;
+  }
+
+  /* --- Thesis ----------------------------------------------------- */
+
+  .thesis__head {
+    margin-block-start: 0.75rem;
+  }
+
+  .thesis__body {
+    margin-block-start: 1.15rem;
+  }
+
+  .systems {
+    display: grid;
+    gap: 1px;
+    margin-block-start: clamp(2rem, 5vw, 3.25rem);
+    background: var(--rule);
+    border-block: 1px solid var(--rule);
+  }
+
+  @media (min-width: 45rem) {
+    .systems {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .systems__item {
+    background: var(--paper);
+    padding: 1.35rem 0;
+  }
+
+  @media (min-width: 45rem) {
+    .systems__item {
+      padding: 1.5rem 1.5rem 1.5rem 0;
+    }
+    .systems__item + .systems__item {
+      padding-inline-start: 1.5rem;
+    }
+  }
+
+  .systems__org {
+    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .systems__what {
+    margin-block-start: 0.2rem;
+  }
+
+  .systems__item .meta {
+    margin-block-start: 0.35rem;
+  }
+
+  /* --- Section heads ---------------------------------------------- */
+
+  .head-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block-end: 1.25rem;
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .head-row__more {
+    flex: none;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .head-row__more:hover {
+    text-decoration: underline;
+  }
+
+  /* --- Cases ------------------------------------------------------ */
+
+  .case + .case {
+    border-block-start: 1px solid var(--rule-soft);
+  }
+
+  .case__link {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+    padding-block: clamp(1.5rem, 3.5vw, 2.25rem);
+    text-decoration: none;
+  }
+
+  @media (min-width: 45rem) {
+    .case__link {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  .case__link:hover {
+    opacity: 1;
+  }
+
+  .case__link:hover .case__title {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  .case__title {
+    font-family: var(--font-mono);
+    font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .case__tagline {
+    margin-block-start: 0.5rem;
+  }
+
+  .case__meta {
+    margin-block-start: 0.75rem;
+  }
+
+  .case__thumb {
+    order: -1;
+  }
+
+  @media (min-width: 45rem) {
+    .case__thumb {
+      order: 0;
+    }
+  }
+
+  /* --- Notes ------------------------------------------------------ */
+
+  .notes {
+    display: grid;
+    gap: 0;
+  }
+
+  .note {
+    padding-block: 1.25rem;
+  }
+
+  .note + .note {
+    border-block-start: 1px solid var(--rule-soft);
+  }
+
+  @media (min-width: 45rem) {
+    .note {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr) minmax(0, 14rem);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  .note__title {
+    font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.18rem);
+    font-weight: 500;
+  }
+
+  .note__title a {
+    text-decoration: none;
+  }
+
+  .note__title a:hover {
+    text-decoration: underline;
+  }
+
+  .note__kind {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* --- Aside ------------------------------------------------------ */
+
+  .aside {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 45rem) {
+    .aside {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 3.5rem;
+    }
+  }
+
+  .aside__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.35rem;
+    margin-block-start: 1.5rem;
+  }
+
+  .aside__links a {
+    text-decoration: none;
+  }
+
+  .aside__links a:hover {
+    text-decoration: underline;
+  }
+</style>

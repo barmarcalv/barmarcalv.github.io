@@ -1,0 +1,137 @@
+---
+import Monogram from './Monogram.astro';
+
+const links = [
+  { href: '/work', label: 'Work' },
+  { href: '/writing', label: 'Writing & Talks' },
+  { href: '/illustration', label: 'Illustration' },
+  { href: '/other-work', label: 'Other work' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+---
+
+<header class="masthead">
+  <div class="page masthead__inner">
+    <a href="/" class="masthead__mark" aria-label="Bárbara Martínez — home">
+      <Monogram />
+    </a>
+
+    <button
+      class="masthead__toggle mono"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      data-nav-toggle
+    >
+      Menu
+    </button>
+
+    <nav id="site-menu" class="masthead__nav" aria-label="Main">
+      <ul>
+        {
+          links.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .masthead {
+    padding-block: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  .masthead__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .masthead__mark {
+    flex: none;
+    text-decoration: none;
+  }
+
+  .masthead__toggle {
+    font-size: var(--step-small);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+  }
+
+  .masthead__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem clamp(1rem, 2.4vw, 2rem);
+  }
+
+  .masthead__nav a {
+    font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1.02rem);
+    text-decoration: none;
+    display: inline-block;
+    padding-block: 0.2rem;
+  }
+
+  .masthead__nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3em;
+  }
+
+  /* Mobile: collapse behind the Menu button. */
+  @media (max-width: 47.99rem) {
+    .masthead__nav {
+      flex-basis: 100%;
+      display: none;
+    }
+    .masthead__nav[data-open] {
+      display: block;
+      padding-block-start: 0.5rem;
+    }
+    .masthead__nav ul {
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .masthead__nav a {
+      padding-block: 0.45rem;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .masthead__toggle {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const menu = document.getElementById('site-menu');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if (open) {
+      menu?.removeAttribute('data-open');
+    } else {
+      menu?.setAttribute('data-open', '');
+    }
+  });
+</script>

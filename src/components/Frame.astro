@@ -1,0 +1,86 @@
+---
+/**
+ * Every image on the site goes through this component so the whole set
+ * reads as one piece: a sand-tinted duotone over the brand red.
+ *
+ * Drop a real file in /public/img/ and pass `src`. With no `src` it
+ * renders a sand placeholder of the right proportion, so layouts can be
+ * built and reviewed before the photography exists.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  ratio?: string;
+  caption?: string;
+  tint?: boolean;
+}
+
+const {
+  src,
+  alt = '',
+  ratio = '4 / 3',
+  caption,
+  tint = true,
+} = Astro.props;
+---
+
+<figure class="frame">
+  <div class="frame__box" style={`aspect-ratio:${ratio}`}>
+    {
+      src ? (
+        <img src={src} alt={alt} loading="lazy" decoding="async" class={tint ? 'is-tinted' : ''} />
+      ) : (
+        <span class="frame__ph" aria-hidden="true" />
+      )
+    }
+  </div>
+  {caption && <figcaption class="meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .frame {
+    margin: 0;
+  }
+
+  .frame__box {
+    position: relative;
+    overflow: hidden;
+    background: var(--sand);
+    border-radius: 2px;
+  }
+
+  .frame__box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* The unifying treatment: desaturate, then multiply over sand so every
+     image — screenshot, photo or illustration — lands in the same warm range. */
+  .frame__box img.is-tinted {
+    filter: grayscale(1) contrast(1.05);
+    mix-blend-mode: multiply;
+  }
+
+  .frame__ph {
+    position: absolute;
+    inset: 0;
+    background: var(--sand);
+  }
+
+  /* Empty placeholders would burn a hole in the dark page; real images
+     keep the full sand so they still carry the treatment. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .frame__ph {
+      background: color-mix(in srgb, var(--sand) 22%, var(--paper));
+    }
+  }
+
+  :global(:root[data-theme='dark']) .frame__ph {
+    background: color-mix(in srgb, var(--sand) 22%, var(--paper));
+  }
+
+  figcaption {
+    margin-block-start: 0.6rem;
+  }
+</style>

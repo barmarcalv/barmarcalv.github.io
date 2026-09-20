@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Frame from '../components/Frame.astro';
+import { getCollection } from 'astro:content';
+import { links } from '../data/site';
+
+const pieces = (await getCollection('gallery'))
+  .filter((e) => e.data.section === 'illustration')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Illustration"
+  description="Be Mart — illustration by Bárbara Martínez. Prints, cards and commissions."
+>
+  <PageHead eyebrow="Illustration" title="Be Mart">
+    <p class="lede">
+      I studied Fine Arts before I studied design, and I never stopped drawing. Be Mart is
+      where that work lives: prints, cards and commissions, sold through a small shop I run
+      myself.
+    </p>
+    <p class="meta head-links">
+      <a href={links.instagram} rel="noopener">Instagram &nearr;</a>
+      <a href={links.etsy} rel="noopener">Shop on Etsy &nearr;</a>
+    </p>
+  </PageHead>
+
+  <div class="page">
+    <ul class="grid">
+      {
+        pieces.map((p) => (
+          <li>
+            <Frame
+              src={p.data.image}
+              alt={p.data.alt ?? p.data.title}
+              ratio={p.data.ratio}
+              caption={p.data.title}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .head-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+  }
+
+  .head-links a {
+    text-decoration: none;
+  }
+
+  .head-links a:hover {
+    text-decoration: underline;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: clamp(1rem, 2.5vw, 2rem);
+    padding-block-start: clamp(2rem, 5vw, 3.5rem);
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Frame from '../components/Frame.astro';
+import { getCollection } from 'astro:content';
+import { links } from '../data/site';
+
+const pieces = (await getCollection('gallery'))
+  .filter((e) => e.data.section === 'other')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Other work"
+  description="Logos, identity, editorial and typography — graphic design work outside product."
+>
+  <PageHead eyebrow="Other work" title="Everything that isn't product design.">
+    <p class="lede">
+      Logos, identity, editorial pieces, typography. Some of it is client work, some of it
+      is what happens when a brief arrives from a friend. It gets added here as it
+      happens.
+    </p>
+  </PageHead>
+
+  <div class="page">
+    <ul class="grid">
+      {
+        pieces.map((p) => (
+          <li class="tile">
+            <Frame
+              src={p.data.image}
+              alt={p.data.alt ?? p.data.title}
+              ratio={p.data.ratio}
+            />
+            <p class="tile__title">{p.data.title}</p>
+            {(p.data.kind || p.data.year) && (
+              <p class="meta">
+                {[p.data.kind, p.data.year].filter(Boolean).join(' · ')}
+              </p>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="archive meta">
+      Earlier graphic design, from art school and the years just after, lives on{' '}
+      <a href={links.behance} rel="noopener">Behance</a>.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    padding-block-start: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .tile__title {
+    margin-block-start: 0.75rem;
+    font-weight: 500;
+  }
+
+  .archive {
+    margin-block-start: clamp(2.5rem, 6vw, 4rem);
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--rule);
+  }
+</style>

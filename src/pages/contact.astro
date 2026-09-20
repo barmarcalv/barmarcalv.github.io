@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { links } from '../data/site';
+
+const channels = [
+  { label: 'Email', value: links.email, href: `mailto:${links.email}` },
+  { label: 'LinkedIn', value: 'in/barmarcal', href: links.linkedin },
+  { label: 'GitHub', value: 'barmarcalv', href: links.github },
+  { label: 'Instagram', value: '@bemartillustration', href: links.instagram },
+];
+---
+
+<Base
+  title="Contact"
+  description="Get in touch with Bárbara Martínez — product design, design systems, illustration."
+>
+  <PageHead eyebrow="Contact" title="Say hola.">
+    <p class="lede">
+      Happy to talk about design systems, accessibility, editing tools, teaching, or a
+      commission. The fastest route is email.
+    </p>
+  </PageHead>
+
+  <div class="page">
+    <ul class="channels">
+      {
+        channels.map((c) => (
+          <li class="channel">
+            <p class="label">{c.label}</p>
+            <p class="channel__value mono">
+              <a href={c.href} rel="noopener">
+                {c.value}
+              </a>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="note">
+      Based in Madrid, working remotely. Spanish and English; I read Catalan and enough
+      Italian to get into trouble.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .channels {
+    padding-block-start: 1rem;
+  }
+
+  .channel {
+    padding-block: clamp(1.25rem, 3vw, 1.75rem);
+    border-block-end: 1px solid var(--rule-soft);
+  }
+
+  @media (min-width: 40rem) {
+    .channel {
+      display: grid;
+      grid-template-columns: 10rem minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  .channel__value {
+    font-size: clamp(1.15rem, 1rem + 0.9vw, 1.6rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  .channel__value a {
+    text-decoration: none;
+  }
+
+  .channel__value a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .note {
+    margin-block-start: clamp(2.5rem, 5vw, 3.5rem);
+  }
+</style>
