@@ -21,13 +21,24 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + '/')
     </a>
 
     <button
-      class="masthead__toggle mono"
+      class="masthead__toggle"
       type="button"
       aria-expanded="false"
       aria-controls="site-menu"
+      aria-label="Menu"
       data-nav-toggle
     >
-      Menu
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <g
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          fill="none"
+        >
+          <path class="icon-bars" d="M3 6h18M3 12h18M3 18h18"></path>
+          <path class="icon-close" d="M5.5 5.5l13 13M18.5 5.5l-13 13"></path>
+        </g>
+      </svg>
     </button>
 
     <nav id="site-menu" class="masthead__nav" aria-label="Main">
@@ -64,16 +75,36 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + '/')
     text-decoration: none;
   }
 
+  /* Icon-only on small screens. The square keeps a 44px touch target
+     even though the glyph inside is 24px. */
   .masthead__toggle {
-    font-size: var(--step-small);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    display: grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    margin-inline-end: -0.6rem;
     color: var(--ink);
     background: none;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    padding: 0.5rem 0.85rem;
+    border: 0;
+    padding: 0;
     cursor: pointer;
+  }
+
+  .masthead__toggle svg {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .masthead__toggle .icon-close {
+    display: none;
+  }
+
+  .masthead__toggle[aria-expanded='true'] .icon-bars {
+    display: none;
+  }
+
+  .masthead__toggle[aria-expanded='true'] .icon-close {
+    display: inline;
   }
 
   .masthead__nav ul {
