@@ -8,23 +8,36 @@ const work = (await getCollection('work'))
   .filter((e) => !e.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
 
-const writing = (await getCollection('writing'))
-  .sort((a, b) => b.data.date.localeCompare(a.data.date))
-  .slice(0, 3);
+const writing = (await getCollection('writing')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
 
 const illos = (await getCollection('gallery'))
   .filter((e) => e.data.section === 'illustration')
   .sort((a, b) => a.data.order - b.data.order);
 
-const systems = [
-  { org: 'Bankinter', what: 'A bank', years: '2018 — 2020' },
-  { org: 'Domestika', what: 'A creative marketplace', years: '2021' },
-  { org: 'Wikimedia', what: 'An open encyclopedia', years: '2021 — 2025' },
-];
+const year = (d: string) => d.slice(0, 4);
 
-// An extra link for the one case that has a public demo.
-const demo: Record<string, { label: string; href: string }> = {
-  codex: { label: 'Open the Codex demo', href: 'https://doc.wikimedia.org/codex/latest/' },
+// Where each piece of work can be seen. The earlier client work is under
+// agreement, so it gets a description instead of a link.
+const seeIt: Record<string, { label: string; href: string }[]> = {
+  codex: [{ label: 'Codex demo site', href: 'https://doc.wikimedia.org/codex/latest/' }],
+  'edit-check': [
+    { label: 'Edit Check', href: 'https://www.mediawiki.org/wiki/Help:Edit_check' },
+    {
+      label: 'Suggestion Mode',
+      href: 'https://www.mediawiki.org/wiki/VisualEditor/Suggestion_Mode',
+    },
+  ],
+  'design-systems-before-wikimedia': [
+    { label: 'Domestika', href: 'https://www.domestika.org/' },
+    { label: 'Bankinter', href: 'https://www.bankinter.com/' },
+  ],
+};
+
+const instead: Record<string, string> = {
+  'product-design':
+    'Web and app projects for online banking, food, events and tools for a regional government, among others.',
 };
 ---
 
@@ -48,32 +61,6 @@ const demo: Record<string, { label: string; href: string }> = {
     </div>
   </section>
 
-  <!-- Design systems -->
-  <section class="page section">
-    <div class="head-row">
-      <h2>Design systems</h2>
-    </div>
-
-    <p class="thesis__body">
-      A bank. A creative learning marketplace. An encyclopedia written by volunteers in
-      more than 300 languages. Same craft each time and almost nothing else in common —
-      which turns out to be the fastest way to learn what a design system really is
-      underneath the components.
-    </p>
-
-    <ul class="systems">
-      {
-        systems.map((s) => (
-          <li class="systems__item">
-            <p class="systems__org mono">{s.org}</p>
-            <p class="systems__what">{s.what}</p>
-            <p class="meta">{s.years}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
   <!-- Selected work -->
   <section class="page section">
     <div class="head-row">
@@ -85,26 +72,27 @@ const demo: Record<string, { label: string; href: string }> = {
       {
         work.map((entry) => (
           <li class="case">
-            <div class="case__text">
+            <div class="case__head">
               <h3 class="case__title">{entry.data.title}</h3>
-              <p class="case__tagline">{entry.data.tagline}</p>
               <p class="meta case__meta">
                 {entry.data.org} &middot; {entry.data.years}
               </p>
-              {demo[entry.id] && (
-                <p class="meta case__demo">
-                  <a href={demo[entry.id].href} rel="noopener">
-                    {demo[entry.id].label} &nearr;
-                  </a>
+            </div>
+
+            <div class="case__body">
+              <p class="case__tagline">{entry.data.tagline}</p>
+
+              {instead[entry.id] && <p class="case__note">{instead[entry.id]}</p>}
+
+              {seeIt[entry.id] && (
+                <p class="meta case__links">
+                  {seeIt[entry.id].map((l) => (
+                    <a href={l.href} rel="noopener">
+                      {l.label} &nearr;
+                    </a>
+                  ))}
                 </p>
               )}
-            </div>
-            <div class="case__thumb">
-              <Frame
-                src={entry.data.cover}
-                alt={entry.data.coverAlt ?? ''}
-                ratio="16 / 10"
-              />
             </div>
           </li>
         ))
@@ -123,13 +111,16 @@ const demo: Record<string, { label: string; href: string }> = {
       {
         writing.map((entry) => (
           <li class="note">
-            <p class="meta note__kind">{entry.data.kind}</p>
+            <p class="meta note__year">{year(entry.data.date)}</p>
             <p class="note__title">
               <a href={entry.data.href} rel="noopener">
-                {entry.data.title}
+                {entry.data.title} &nearr;
               </a>
             </p>
-            <p class="meta">{entry.data.venue}</p>
+            <p class="meta note__where">
+              {entry.data.kind} &middot; {entry.data.venue}
+              {entry.data.lang !== 'English' && <span> &middot; in {entry.data.lang}</span>}
+            </p>
           </li>
         ))
       }
@@ -143,17 +134,12 @@ const demo: Record<string, { label: string; href: string }> = {
       <a class="meta head-row__more" href="/illustration">View more &rarr;</a>
     </div>
 
-    <p class="thesis__body">
+    <p class="intro">
       I studied Fine Arts before I studied design, and I never stopped drawing. Prints,
       cards and commissions, made as Be Mart.
     </p>
 
-    <div
-      class="strip"
-      role="region"
-      aria-labelledby="illo-heading"
-      tabindex="0"
-    >
+    <div class="strip" role="region" aria-labelledby="illo-heading" tabindex="0">
       <ul>
         {
           illos.map((p) => (
@@ -209,59 +195,15 @@ const demo: Record<string, { label: string; href: string }> = {
     text-decoration: underline;
   }
 
-  .thesis__body {
+  .intro {
     margin-block-start: 1.5rem;
   }
 
-  /* --- Three systems ---------------------------------------------- */
-
-  .systems {
-    display: grid;
-    gap: 1px;
-    margin-block-start: clamp(2rem, 5vw, 3.25rem);
-    background: var(--rule);
-    border-block: 1px solid var(--rule);
-  }
-
-  @media (min-width: 45rem) {
-    .systems {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .systems__item {
-    background: var(--paper);
-    padding: 1.35rem 0;
-  }
-
-  @media (min-width: 45rem) {
-    .systems__item {
-      padding: 1.5rem 1.5rem 1.5rem 0;
-    }
-    .systems__item + .systems__item {
-      padding-inline-start: 1.5rem;
-    }
-  }
-
-  .systems__org {
-    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .systems__what {
-    margin-block-start: 0.2rem;
-  }
-
-  .systems__item .meta {
-    margin-block-start: 0.35rem;
-  }
-
-  /* --- Cases ------------------------------------------------------ */
+  /* --- Cases: text only ------------------------------------------- */
 
   .case {
     display: grid;
-    gap: 1.25rem;
+    gap: 0.75rem;
     align-items: start;
     padding-block: clamp(1.5rem, 3.5vw, 2.25rem);
   }
@@ -270,10 +212,10 @@ const demo: Record<string, { label: string; href: string }> = {
     border-block-start: 1px solid var(--rule-soft);
   }
 
-  @media (min-width: 45rem) {
+  @media (min-width: 52rem) {
     .case {
-      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-      gap: 2.5rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      gap: 3rem;
     }
   }
 
@@ -284,61 +226,60 @@ const demo: Record<string, { label: string; href: string }> = {
     letter-spacing: -0.02em;
   }
 
-  .case__tagline {
+  .case__meta {
     margin-block-start: 0.5rem;
   }
 
-  .case__meta {
-    margin-block-start: 0.75rem;
+  .case__tagline {
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.18rem);
   }
 
-  .case__demo {
-    display: inline-block;
-    margin-block-start: 0.85rem;
+  .case__note {
+    margin-block-start: 0.65rem;
   }
 
-  .case__demo a {
+  .case__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin-block-start: 1rem;
+  }
+
+  .case__links a {
     text-decoration: none;
     border-block-end: 1px solid var(--rule);
     padding-block-end: 0.15rem;
   }
 
-  .case__demo a:hover {
+  .case__links a:hover {
     border-block-end-color: currentColor;
-  }
-
-  .case__thumb {
-    order: -1;
-  }
-
-  @media (min-width: 45rem) {
-    .case__thumb {
-      order: 0;
-    }
   }
 
   /* --- Notes ------------------------------------------------------ */
 
   .note {
     padding-block: 1.25rem;
+    display: grid;
+    gap: 0.35rem;
   }
 
   .note + .note {
     border-block-start: 1px solid var(--rule-soft);
   }
 
-  @media (min-width: 45rem) {
+  @media (min-width: 52rem) {
     .note {
-      display: grid;
-      grid-template-columns: 7rem minmax(0, 1fr) minmax(0, 14rem);
-      gap: 1.5rem;
+      grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 17rem);
+      gap: 2rem;
       align-items: baseline;
     }
   }
 
   .note__title {
-    font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.18rem);
+    font-family: var(--font-mono);
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem);
     font-weight: 500;
+    letter-spacing: -0.015em;
   }
 
   .note__title a {
@@ -349,12 +290,7 @@ const demo: Record<string, { label: string; href: string }> = {
     text-decoration: underline;
   }
 
-  .note__kind {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* --- Illustration strip -----------------------------------------
+  /* --- Illustration strip ------------------------------------------
      A scroll-snapping row rather than a carousel: no JavaScript, it
      scrolls with a trackpad, a finger or the arrow keys, and it never
      hides a piece behind a "next" button. */

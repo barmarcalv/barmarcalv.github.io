@@ -5,7 +5,7 @@ org: 'Earlier'
 role: 'Product Designer'
 years: '2016 — 2018'
 order: 4
-summary: 'Before I specialised in systems I spent two years in end-to-end product work at Opentrends in Barcelona: research, wireframes, prototypes and final delivery, across online banking, automotive, food and education clients, on both web and native apps.'
+summary: 'End-to-end client work before I specialised in systems: research, wireframes, prototypes and final delivery, for web and for native apps — online banking, food, events and tools for a regional government, among other sectors.'
 cover: '/img/work/product-design.webp'
 coverAlt: 'Three phone screens from a music and concerts app: genre picker, concert discovery and upcoming gigs'
 links:
