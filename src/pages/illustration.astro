@@ -36,6 +36,7 @@ const pieces = (await getCollection('gallery'))
               alt={p.data.alt ?? p.data.title}
               ratio={p.data.ratio}
               caption={p.data.title}
+              tint={false}
             />
           </li>
         ))

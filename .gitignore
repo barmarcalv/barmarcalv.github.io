@@ -21,3 +21,6 @@ pnpm-debug.log*
 # editors
 .vscode/
 .idea/
+
+# originales sin procesar (no se publican)
+_incoming/

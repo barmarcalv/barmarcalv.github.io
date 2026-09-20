@@ -1,12 +1,13 @@
 ---
 title: 'Codex'
-tagline: 'A design system for an encyclopedia written in more than 300 languages'
+tagline: 'The design system of Wikimedia, created for more than 300 languages'
 org: 'Wikimedia Foundation'
 role: 'Design System & Senior Product Designer'
 years: '2021 — 2025'
 order: 1
 summary: 'Wikimedia had no shared design language. Codex gave hundreds of volunteer developers and a dozen product teams one set of components that works in every language Wikipedia is written in, in both reading directions, and meets WCAG out of the box.'
-coverAlt: 'Codex component library'
+cover: '/img/work/codex.webp'
+coverAlt: 'The Codex logo beside component specs for text areas, selects and typeahead search, shown in light and dark modes'
 links:
   - label: 'Codex demo site'
     href: 'https://doc.wikimedia.org/codex/latest/'

@@ -14,7 +14,7 @@ const pieces = (await getCollection('gallery'))
   title="Other work"
   description="Logos, identity, editorial and typography — graphic design work outside product."
 >
-  <PageHead eyebrow="Other work" title="Everything that isn't product design.">
+  <PageHead eyebrow="Other work" title="Everything that isn’t product design.">
     <p class="lede">
       Logos, identity, editorial pieces, typography. Some of it is client work, some of it
       is what happens when a brief arrives from a friend. It gets added here as it
@@ -31,6 +31,7 @@ const pieces = (await getCollection('gallery'))
               src={p.data.image}
               alt={p.data.alt ?? p.data.title}
               ratio={p.data.ratio}
+              tint={false}
             />
             <p class="tile__title">{p.data.title}</p>
             {(p.data.kind || p.data.year) && (
