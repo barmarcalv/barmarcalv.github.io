@@ -11,11 +11,8 @@ export const site = {
 export const links = {
   email: 'barmarcal91@gmail.com',
   linkedin: 'https://www.linkedin.com/in/barmarcal/',
-  github: 'https://github.com/barmarcalv',
+  github: 'https://github.com/bmartinezcalvo/',
   instagram: 'https://www.instagram.com/bemartillustration',
-  etsy: 'https://www.etsy.com/shop/bemartillustration/',
-  spotify: 'https://open.spotify.com/user/bartolilla91',
   behance: 'https://www.behance.net/barmarcal',
   oldPortfolio: 'https://barmarcal.wixsite.com/website-1',
-  cv: '/BarbaraMartinez-CV.pdf',
 };

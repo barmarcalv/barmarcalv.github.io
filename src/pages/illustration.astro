@@ -22,7 +22,6 @@ const pieces = (await getCollection('gallery'))
     </p>
     <p class="meta head-links">
       <a href={links.instagram} rel="noopener">Instagram &nearr;</a>
-      <a href={links.etsy} rel="noopener">Shop on Etsy &nearr;</a>
     </p>
   </PageHead>
 
@@ -36,7 +35,6 @@ const pieces = (await getCollection('gallery'))
               alt={p.data.alt ?? p.data.title}
               ratio={p.data.ratio}
               caption={p.data.title}
-              tint={false}
             />
           </li>
         ))

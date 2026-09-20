@@ -22,7 +22,7 @@ const systems = [
   { org: 'Wikimedia', what: 'An open encyclopedia', years: '2021 — 2025' },
 ];
 
-// Shown as a second link on the card, beside the case itself.
+// An extra link for the one case that has a public demo.
 const demo: Record<string, { label: string; href: string }> = {
   codex: { label: 'Open the Codex demo', href: 'https://doc.wikimedia.org/codex/latest/' },
 };
@@ -86,11 +86,7 @@ const demo: Record<string, { label: string; href: string }> = {
         work.map((entry) => (
           <li class="case">
             <div class="case__text">
-              <h3 class="case__title">
-                <a class="case__link" href={`/work/${entry.id}`}>
-                  {entry.data.title}
-                </a>
-              </h3>
+              <h3 class="case__title">{entry.data.title}</h3>
               <p class="case__tagline">{entry.data.tagline}</p>
               <p class="meta case__meta">
                 {entry.data.org} &middot; {entry.data.years}
@@ -166,7 +162,6 @@ const demo: Record<string, { label: string; href: string }> = {
                 src={p.data.image}
                 alt={p.data.alt ?? p.data.title}
                 ratio={p.data.ratio}
-                tint={false}
               />
             </li>
           ))
@@ -176,7 +171,6 @@ const demo: Record<string, { label: string; href: string }> = {
 
     <p class="meta strip__links">
       <a href={links.instagram} rel="noopener">Latest on Instagram &nearr;</a>
-      <a href={links.etsy} rel="noopener">Shop on Etsy &nearr;</a>
     </p>
   </section>
 </Base>
@@ -263,12 +257,9 @@ const demo: Record<string, { label: string; href: string }> = {
     margin-block-start: 0.35rem;
   }
 
-  /* --- Cases ------------------------------------------------------
-     The title carries a stretched link so the whole row is clickable,
-     while the demo link stays a real, separate link on top of it. */
+  /* --- Cases ------------------------------------------------------ */
 
   .case {
-    position: relative;
     display: grid;
     gap: 1.25rem;
     align-items: start;
@@ -293,21 +284,6 @@ const demo: Record<string, { label: string; href: string }> = {
     letter-spacing: -0.02em;
   }
 
-  .case__link {
-    text-decoration: none;
-  }
-
-  .case__link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-  }
-
-  .case:hover .case__link {
-    text-decoration: underline;
-    text-underline-offset: 0.22em;
-  }
-
   .case__tagline {
     margin-block-start: 0.5rem;
   }
@@ -317,8 +293,6 @@ const demo: Record<string, { label: string; href: string }> = {
   }
 
   .case__demo {
-    position: relative;
-    z-index: 1;
     display: inline-block;
     margin-block-start: 0.85rem;
   }

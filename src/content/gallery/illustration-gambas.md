@@ -1,5 +1,5 @@
 ---
-title: 'Gambas'
+title: 'Spanish shrimps'
 section: 'illustration'
 kind: 'Be Mart'
 image: '/img/illustration/gambas.webp'

@@ -16,9 +16,8 @@ const pieces = (await getCollection('gallery'))
 >
   <PageHead eyebrow="Other work" title="Everything that isn’t product design.">
     <p class="lede">
-      Logos, identity, editorial pieces, typography. Some of it is client work, some of it
-      is what happens when a brief arrives from a friend. It gets added here as it
-      happens.
+      Logos, identity, editorial pieces, typography and print — the graphic design work
+      that sits outside product. New pieces get added here as they happen.
     </p>
   </PageHead>
 
@@ -31,11 +30,9 @@ const pieces = (await getCollection('gallery'))
               src={p.data.image}
               alt={p.data.alt ?? p.data.title}
               ratio={p.data.ratio}
-              tint={false}
             />
-            <p class="tile__title">{p.data.title}</p>
             {(p.data.kind || p.data.year) && (
-              <p class="meta">
+              <p class="tile__kind">
                 {[p.data.kind, p.data.year].filter(Boolean).join(' · ')}
               </p>
             )}
@@ -59,7 +56,7 @@ const pieces = (await getCollection('gallery'))
     padding-block-start: clamp(2rem, 5vw, 3.5rem);
   }
 
-  .tile__title {
+  .tile__kind {
     margin-block-start: 0.75rem;
     font-weight: 500;
   }

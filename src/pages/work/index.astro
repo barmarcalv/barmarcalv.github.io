@@ -11,12 +11,13 @@ const work = (await getCollection('work'))
 
 <Base
   title="Work"
-  description="Design systems, product design and editing tools — Wikimedia, Domestika, Bankinter and earlier client work."
+  description="Design systems and product design — Wikimedia, Domestika, Bankinter and earlier client work."
 >
-  <PageHead eyebrow="Work" title="Systems, and the products they hold up.">
+  <PageHead eyebrow="Work" title="Design systems and products I’ve worked on.">
     <p class="lede">
-      Ten years of design work, mostly on the parts people never notice until they break:
-      the components, the tokens, the rules underneath the interface.
+      A selection from the last ten years: design systems at Wikimedia, Domestika and
+      Bankinter, and product design for clients before that. Where the work is public,
+      the links go straight to it.
     </p>
   </PageHead>
 
@@ -25,24 +26,36 @@ const work = (await getCollection('work'))
       {
         work.map((entry) => (
           <li class="case">
-            <a class="case__link" href={`/work/${entry.id}`}>
-              <div class="case__thumb">
-                <Frame
-                  src={entry.data.cover}
-                  alt={entry.data.coverAlt ?? ''}
-                  ratio="16 / 10"
-                />
-              </div>
-              <div class="case__text">
-                <p class="meta">
-                  {entry.data.org} &middot; {entry.data.years}
-                </p>
-                <h2 class="case__title">{entry.data.title}</h2>
-                <p class="case__tagline">{entry.data.tagline}</p>
-                <p class="case__summary">{entry.data.summary}</p>
-                <p class="meta case__cta">Read the case &rarr;</p>
-              </div>
-            </a>
+            <div class="case__thumb">
+              <Frame
+                src={entry.data.cover}
+                alt={entry.data.coverAlt ?? ''}
+                ratio="16 / 10"
+              />
+            </div>
+
+            <div class="case__text">
+              <p class="meta">
+                {entry.data.org} &middot; {entry.data.years}
+              </p>
+              <h2 class="case__title">{entry.data.title}</h2>
+              <p class="case__tagline">{entry.data.tagline}</p>
+              <p class="case__summary">{entry.data.summary}</p>
+
+              <p class="meta case__role">{entry.data.role}</p>
+
+              {entry.data.links.length > 0 && (
+                <ul class="outlinks meta">
+                  {entry.data.links.map((l) => (
+                    <li>
+                      <a href={l.href} rel="noopener">
+                        {l.label} &nearr;
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </li>
         ))
       }
@@ -55,39 +68,27 @@ const work = (await getCollection('work'))
     padding-block-start: 1rem;
   }
 
-  .case + .case {
-    border-block-start: 1px solid var(--rule-soft);
-  }
-
-  .case__link {
+  .case {
     display: grid;
     gap: 1.5rem;
     align-items: start;
     padding-block: clamp(2rem, 4.5vw, 3rem);
-    text-decoration: none;
+  }
+
+  .case + .case {
+    border-block-start: 1px solid var(--rule-soft);
   }
 
   @media (min-width: 48rem) {
-    .case__link {
+    .case {
       grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 3rem;
     }
   }
 
-  .case__link:hover {
-    opacity: 1;
-  }
-
-  .case__link:hover .case__title {
-    text-decoration: underline;
-    text-underline-offset: 0.22em;
-  }
-
   .case__title {
     font-family: var(--font-mono);
     font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.1rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
     margin-block-start: 0.5rem;
   }
 
@@ -100,7 +101,26 @@ const work = (await getCollection('work'))
     margin-block-start: 0.9rem;
   }
 
-  .case__cta {
-    margin-block-start: 1.1rem;
+  .case__role {
+    margin-block-start: 1rem;
+  }
+
+  .outlinks {
+    margin-block-start: 1.25rem;
+    border-block-start: 1px solid var(--rule);
+  }
+
+  .outlinks li {
+    border-block-end: 1px solid var(--rule-soft);
+  }
+
+  .outlinks a {
+    display: block;
+    padding-block: 0.7rem;
+    text-decoration: none;
+  }
+
+  .outlinks a:hover {
+    text-decoration: underline;
   }
 </style>

@@ -28,7 +28,7 @@ const writing = defineCollection({
     venue: z.string(),
     date: z.string(),
     href: z.string(),
-    blurb: z.string(),
+    blurb: z.string().optional(),
     lang: z.string().default('English'),
   }),
 });
