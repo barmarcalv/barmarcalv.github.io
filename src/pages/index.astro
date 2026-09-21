@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Frame from '../components/Frame.astro';
+import ExtLink from '../components/ExtLink.astro';
 import { getCollection } from 'astro:content';
 import { links } from '../data/site';
 
@@ -49,8 +50,16 @@ const instead: Record<string, string> = {
     <div class="flow hero__body">
       <p class="lede">
         I&rsquo;m a product designer based in Madrid, currently working at the{' '}
-        <a href="https://wikimediafoundation.org/">Wikimedia Foundation</a> on the{' '}
-        <a href="https://www.mediawiki.org/wiki/Editing_team">Editing team</a>.
+        <a
+          href="https://wikimediafoundation.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Wikimedia Foundation <span class="visually-hidden">(opens in a new tab)</span></a> on the{' '}
+        <a
+          href="https://www.mediawiki.org/wiki/Editing_team"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Editing team <span class="visually-hidden">(opens in a new tab)</span></a>.
       </p>
       <p>
         I design products and systems that make complexity feel simple. With expertise in
@@ -85,12 +94,8 @@ const instead: Record<string, string> = {
               {instead[entry.id] && <p class="case__note">{instead[entry.id]}</p>}
 
               {seeIt[entry.id] && (
-                <p class="meta case__links linkrow">
-                  {seeIt[entry.id].map((l) => (
-                    <a href={l.href} rel="noopener">
-                      {l.label} <span aria-hidden="true">↗</span>
-                    </a>
-                  ))}
+                <p class="meta case__links extlinks">
+                  {seeIt[entry.id].map((l) => <ExtLink href={l.href}>{l.label}</ExtLink>)}
                 </p>
               )}
             </div>
@@ -119,13 +124,12 @@ const instead: Record<string, string> = {
               </span>
             </p>
             <p class="note__title">
-              <a
+              <ExtLink
                 href={entry.data.href}
-                rel="noopener"
                 lang={entry.data.lang === 'Spanish' ? 'es' : undefined}
               >
-                {entry.data.title} <span aria-hidden="true">↗</span>
-              </a>
+                {entry.data.title}
+              </ExtLink>
             </p>
           </li>
         ))
@@ -143,7 +147,8 @@ const instead: Record<string, string> = {
     <p class="intro">
       I studied Fine Arts before working as a product designer, and I never stopped
       drawing. Prints, cards and commissions, made as{' '}
-      <a href={links.instagram} rel="noopener">Be Mart</a>.
+      <a href={links.instagram} target="_blank" rel="noopener noreferrer"
+        >Be Mart <span class="visually-hidden">(opens in a new tab)</span></a>.
     </p>
 
     <div class="strip" role="region" aria-labelledby="illo-heading" tabindex="0">
@@ -182,9 +187,10 @@ const instead: Record<string, string> = {
 
   .head-row {
     display: flex;
+    flex-wrap: wrap; /* at 40px the heading needs the whole line on a phone */
     align-items: baseline;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 0.5rem 1rem;
     padding-block-end: 1.25rem;
     border-block-end: 1px solid var(--rule);
   }
@@ -246,16 +252,6 @@ const instead: Record<string, string> = {
     margin-block-start: 1rem;
   }
 
-  .case__links a {
-    border-block-end: 1px solid var(--rule);
-  }
-
-  /* The border under these links is the affordance, so hover darkens it
-     instead of adding a second underline on top. */
-  .case__links a:hover {
-    text-decoration: none;
-    border-block-end-color: currentColor;
-  }
 
   /* --- Notes ------------------------------------------------------ */
 
@@ -271,7 +267,9 @@ const instead: Record<string, string> = {
 
   @media (min-width: 52rem) {
     .note {
-      grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+      /* auto takes the widest row's natural width when there is room, so
+         the venue stays on one line, and shrinks when there isn't. */
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
       gap: 2rem;
       align-items: baseline;
     }
@@ -282,6 +280,7 @@ const instead: Record<string, string> = {
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem 0.65rem;
+    max-width: none;
   }
 
   .note__title {

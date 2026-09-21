@@ -39,8 +39,15 @@ const channels = [
             <li class="channel">
               <p class="label">{c.label}</p>
               <p class="channel__value mono">
-                <a href={c.href} rel="noopener">
+                <a
+                  href={c.href}
+                  target={c.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel="noopener noreferrer"
+                >
                   {c.value}
+                  {!c.href.startsWith('mailto:') && (
+                    <span class="visually-hidden">(opens in a new tab)</span>
+                  )}
                 </a>
               </p>
             </li>

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import Frame from '../../components/Frame.astro';
+import ExtLink from '../../components/ExtLink.astro';
 import { getCollection } from 'astro:content';
 
 const work = (await getCollection('work'))
@@ -33,18 +34,10 @@ const work = (await getCollection('work'))
               <p class="case__tagline">{entry.data.tagline}</p>
               <p class="case__summary">{entry.data.summary}</p>
 
-              <p class="meta case__role">{entry.data.role}</p>
-
               {entry.data.links.length > 0 && (
-                <ul class="outlinks meta">
-                  {entry.data.links.map((l) => (
-                    <li>
-                      <a href={l.href} rel="noopener">
-                        {l.label} <span aria-hidden="true">↗</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <p class="meta outlinks extlinks">
+                  {entry.data.links.map((l) => <ExtLink href={l.href}>{l.label}</ExtLink>)}
+                </p>
               )}
             </div>
 
@@ -100,32 +93,12 @@ const work = (await getCollection('work'))
     margin-block-start: 0.9rem;
   }
 
-  .case__role {
-    margin-block-start: 1rem;
-  }
 
   .outlinks {
     margin-block-start: 1.25rem;
-    border-block-start: 1px solid var(--rule);
   }
 
-  .outlinks li {
-    border-block-end: 1px solid var(--rule-soft);
-  }
 
-  .outlinks a {
-    display: block;
-    padding-block: 0.7rem;
-    text-decoration: none;
-  }
 
-  /* The row already has a rule under it; hover darkens that instead of
-     stacking a second line. */
-  .outlinks a:hover {
-    text-decoration: none;
-  }
 
-  .outlinks li:hover {
-    border-block-end-color: currentColor;
-  }
 </style>

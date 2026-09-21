@@ -8,9 +8,9 @@ const year = new Date().getFullYear();
     <p class="meta foot__rights">© {year} Bárbara Martínez</p>
     <ul class="foot__links linkrow meta">
       <li><a href={`mailto:${links.email}`}>Email</a></li>
-      <li><a href={links.linkedin} rel="me noopener">LinkedIn</a></li>
-      <li><a href={links.github} rel="me noopener">GitHub</a></li>
-      <li><a href={links.instagram} rel="me noopener">Instagram</a></li>
+      <li><a href={links.linkedin} target="_blank" rel="me noopener noreferrer">LinkedIn <span class="visually-hidden">(opens in a new tab)</span></a></li>
+      <li><a href={links.github} target="_blank" rel="me noopener noreferrer">GitHub <span class="visually-hidden">(opens in a new tab)</span></a></li>
+      <li><a href={links.instagram} target="_blank" rel="me noopener noreferrer">Instagram <span class="visually-hidden">(opens in a new tab)</span></a></li>
     </ul>
   </div>
 </footer>

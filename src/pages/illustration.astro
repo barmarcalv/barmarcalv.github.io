@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import ExtLink from '../components/ExtLink.astro';
 import Frame from '../components/Frame.astro';
 import { getCollection } from 'astro:content';
 import { links } from '../data/site';
@@ -20,8 +21,8 @@ const pieces = (await getCollection('gallery'))
       where that work lives: prints, cards and commissions, sold through a small shop I run
       myself.
     </p>
-    <p class="meta head-links linkrow">
-      <a href={links.instagram} rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
+    <p class="meta head-links extlinks">
+      <ExtLink href={links.instagram}>View all my illustrations</ExtLink>
     </p>
   </PageHead>
 

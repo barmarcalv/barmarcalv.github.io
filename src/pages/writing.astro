@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import ExtLink from '../components/ExtLink.astro';
 import { getCollection } from 'astro:content';
 
 const entries = (await getCollection('writing')).sort((a, b) =>
@@ -28,9 +29,9 @@ const year = (d: string) => d.slice(0, 4);
             <p class="meta note__year">{year(entry.data.date)}</p>
             <div class="note__main">
               <p class="note__title">
-                <a href={entry.data.href} rel="noopener" lang={entry.data.lang === 'Spanish' ? 'es' : undefined}>
-                  {entry.data.title} <span aria-hidden="true">↗</span>
-                </a>
+                <ExtLink href={entry.data.href} lang={entry.data.lang === 'Spanish' ? 'es' : undefined}>
+                  {entry.data.title}
+                </ExtLink>
               </p>
             </div>
             <p class="meta note__where">

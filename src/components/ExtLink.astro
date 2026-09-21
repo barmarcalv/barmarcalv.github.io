@@ -1,0 +1,39 @@
+---
+/**
+ * An external link. Always underlined, always opens in a new tab, and
+ * always tells a screen reader that it will — the ↗ is decorative, so it
+ * carries no meaning on its own.
+ */
+interface Props {
+  href: string;
+  lang?: string;
+  class?: string;
+  arrow?: boolean;
+}
+
+const { href, lang, class: cls, arrow = true } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['extlink', cls]}
+  target="_blank"
+  rel="noopener noreferrer"
+  lang={lang}
+>
+  <span class="extlink__label"><slot /></span>
+  {arrow && <span aria-hidden="true">&nearr;</span>}
+  <span class="visually-hidden">(opens in a new tab)</span>
+</a>
+
+<style>
+  .extlink {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35em;
+    min-block-size: 1.5rem;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+</style>
