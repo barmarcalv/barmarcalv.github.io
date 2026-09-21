@@ -65,7 +65,7 @@ const instead: Record<string, string> = {
   <section class="page section">
     <div class="head-row">
       <h2 id="work-heading">Selected work</h2>
-      <a class="meta head-row__more" href="/work">View more &rarr;</a>
+      <a class="meta head-row__more" href="/work" aria-label="View more work">View more <span aria-hidden="true">→</span></a>
     </div>
 
     <ul class="cases" aria-labelledby="work-heading">
@@ -85,10 +85,10 @@ const instead: Record<string, string> = {
               {instead[entry.id] && <p class="case__note">{instead[entry.id]}</p>}
 
               {seeIt[entry.id] && (
-                <p class="meta case__links">
+                <p class="meta case__links linkrow">
                   {seeIt[entry.id].map((l) => (
                     <a href={l.href} rel="noopener">
-                      {l.label} &nearr;
+                      {l.label} <span aria-hidden="true">↗</span>
                     </a>
                   ))}
                 </p>
@@ -104,7 +104,7 @@ const instead: Record<string, string> = {
   <section class="page section">
     <div class="head-row">
       <h2 id="writing-heading">Writing &amp; Talks</h2>
-      <a class="meta head-row__more" href="/writing">View more &rarr;</a>
+      <a class="meta head-row__more" href="/writing" aria-label="View more writing and talks">View more <span aria-hidden="true">→</span></a>
     </div>
 
     <ul class="notes" aria-labelledby="writing-heading">
@@ -113,8 +113,12 @@ const instead: Record<string, string> = {
           <li class="note">
             <p class="meta note__year">{year(entry.data.date)}</p>
             <p class="note__title">
-              <a href={entry.data.href} rel="noopener">
-                {entry.data.title} &nearr;
+              <a
+                href={entry.data.href}
+                rel="noopener"
+                lang={entry.data.lang === 'Spanish' ? 'es' : undefined}
+              >
+                {entry.data.title} <span aria-hidden="true">↗</span>
               </a>
             </p>
             <p class="meta note__where">
@@ -131,7 +135,7 @@ const instead: Record<string, string> = {
   <section class="page section">
     <div class="head-row">
       <h2 id="illo-heading">Illustrations</h2>
-      <a class="meta head-row__more" href="/illustration">View more &rarr;</a>
+      <a class="meta head-row__more" href="/illustration" aria-label="View more illustrations">View more <span aria-hidden="true">→</span></a>
     </div>
 
     <p class="intro">
@@ -155,8 +159,8 @@ const instead: Record<string, string> = {
       </ul>
     </div>
 
-    <p class="meta strip__links">
-      <a href={links.instagram} rel="noopener">Latest on Instagram &nearr;</a>
+    <p class="meta strip__links linkrow">
+      <a href={links.instagram} rel="noopener">Latest on Instagram <span aria-hidden="true">↗</span></a>
     </p>
   </section>
 </Base>
@@ -239,16 +243,11 @@ const instead: Record<string, string> = {
   }
 
   .case__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
     margin-block-start: 1rem;
   }
 
   .case__links a {
-    text-decoration: none;
     border-block-end: 1px solid var(--rule);
-    padding-block-end: 0.15rem;
   }
 
   .case__links a:hover {
@@ -322,17 +321,6 @@ const instead: Record<string, string> = {
   }
 
   .strip__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
     margin-block-start: 1rem;
-  }
-
-  .strip__links a {
-    text-decoration: none;
-  }
-
-  .strip__links a:hover {
-    text-decoration: underline;
   }
 </style>

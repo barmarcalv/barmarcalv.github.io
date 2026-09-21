@@ -49,7 +49,7 @@ const work = (await getCollection('work'))
                   {entry.data.links.map((l) => (
                     <li>
                       <a href={l.href} rel="noopener">
-                        {l.label} &nearr;
+                        {l.label} <span aria-hidden="true">↗</span>
                       </a>
                     </li>
                   ))}

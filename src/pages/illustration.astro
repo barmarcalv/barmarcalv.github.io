@@ -20,8 +20,8 @@ const pieces = (await getCollection('gallery'))
       where that work lives: prints, cards and commissions, sold through a small shop I run
       myself.
     </p>
-    <p class="meta head-links">
-      <a href={links.instagram} rel="noopener">Instagram &nearr;</a>
+    <p class="meta head-links linkrow">
+      <a href={links.instagram} rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
     </p>
   </PageHead>
 
@@ -44,19 +44,6 @@ const pieces = (await getCollection('gallery'))
 </Base>
 
 <style>
-  .head-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
-  }
-
-  .head-links a {
-    text-decoration: none;
-  }
-
-  .head-links a:hover {
-    text-decoration: underline;
-  }
 
   .grid {
     display: grid;

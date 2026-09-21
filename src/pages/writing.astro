@@ -28,8 +28,8 @@ const year = (d: string) => d.slice(0, 4);
             <p class="meta note__year">{year(entry.data.date)}</p>
             <div class="note__main">
               <p class="note__title">
-                <a href={entry.data.href} rel="noopener">
-                  {entry.data.title}
+                <a href={entry.data.href} rel="noopener" lang={entry.data.lang === 'Spanish' ? 'es' : undefined}>
+                  {entry.data.title} <span aria-hidden="true">↗</span>
                 </a>
               </p>
             </div>
@@ -75,16 +75,8 @@ const year = (d: string) => d.slice(0, 4);
     text-decoration: none;
   }
 
-  .note__title a::after {
-    content: ' ↗';
-    vertical-align: 0.05em;
-  }
-
   .note__title a:hover {
     text-decoration: underline;
   }
 
-  .note__blurb {
-    margin-block-start: 0.5rem;
-  }
 </style>

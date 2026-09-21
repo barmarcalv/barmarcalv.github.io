@@ -116,8 +116,13 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + '/')
   .masthead__nav a {
     font-size: clamp(1rem, 0.96rem + 0.18vw, 1.08rem);
     text-decoration: none;
-    display: inline-block;
-    padding-block: 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 1.75rem;
+  }
+
+  .masthead__nav a:hover {
+    text-decoration: underline;
   }
 
   .masthead__nav a[aria-current='page'] {

@@ -11,16 +11,21 @@
    Tokens
    The palette is one hue. --ink is the brand red used for headings,
    links and body copy; --ink-strong is a deeper variant reserved for
-   small text, where 4.8:1 gets uncomfortable. Images are never filtered;
+   small text. --ink-hover is what every interactive element moves to on
+   hover and on press: darker on light paper, lighter on dark paper, so the
+   contrast always goes UP, never down. Images are never filtered;
    --placeholder is only what sits behind one before it loads.
    --------------------------------------------------------------- */
 :root {
   --paper: #ffffff;
   --ink: #d23b1d;          /* 4.79:1 on paper - AA for body and large text */
   --ink-strong: #a82d14;   /* 6.89:1 on paper - for small text and metadata */
+  --ink-hover: #9d2a14;    /* 7.57:1 on paper - hover and active, AAA */
   --placeholder: color-mix(in srgb, var(--ink) 9%, var(--paper));
-  --rule: color-mix(in srgb, var(--ink) 28%, transparent);
-  --rule-soft: color-mix(in srgb, var(--ink) 14%, transparent);
+  /* Separators carry structure, so they meet the 3:1 floor WCAG 1.4.11
+     asks of non-text elements. A 1px rule at 4.5:1 is solid #d23b1d. */
+  --rule: color-mix(in srgb, var(--ink) 70%, transparent);
+  --rule-soft: color-mix(in srgb, var(--ink) 70%, transparent);
 
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -46,9 +51,10 @@
     --paper: #17100e;
     --ink: #f4805e;        /* 7.1:1 on the dark paper */
     --ink-strong: #f9a288; /* small text needs MORE light on dark, not less */
+    --ink-hover: #fcb8a0;  /* 11.19:1 - on dark paper, hover goes lighter */
     --placeholder: color-mix(in srgb, var(--ink) 12%, var(--paper));
-    --rule: color-mix(in srgb, var(--ink) 30%, transparent);
-    --rule-soft: color-mix(in srgb, var(--ink) 15%, transparent);
+    --rule: color-mix(in srgb, var(--ink) 55%, transparent);
+    --rule-soft: color-mix(in srgb, var(--ink) 55%, transparent);
     }
 }
 
@@ -56,9 +62,10 @@
   --paper: #17100e;
   --ink: #f4805e;
   --ink-strong: #f9a288;
+  --ink-hover: #fcb8a0;
   --placeholder: color-mix(in srgb, var(--ink) 12%, var(--paper));
-  --rule: color-mix(in srgb, var(--ink) 30%, transparent);
-  --rule-soft: color-mix(in srgb, var(--ink) 15%, transparent);
+  --rule: color-mix(in srgb, var(--ink) 55%, transparent);
+  --rule-soft: color-mix(in srgb, var(--ink) 55%, transparent);
 }
 
 /* --------------------------------------------------------------- */
@@ -136,11 +143,21 @@ a {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
-  transition: opacity 0.15s ease;
+  transition: color 0.15s ease;
+}
+
+/* Hover and press raise the contrast instead of fading it, and every
+   interactive element also gains an underline, so the state never rests
+   on colour alone (WCAG 1.4.1). */
+a:hover,
+a:active,
+button:hover,
+button:active {
+  color: var(--ink-hover);
 }
 
 a:hover {
-  opacity: 0.62;
+  text-decoration: underline;
 }
 
 :focus-visible {
@@ -218,6 +235,30 @@ hr {
   letter-spacing: -0.01em;
 }
 
+/* --- Link lists --------------------------------------------------
+   Links sitting in a row or a list are targets in their own right, so
+   they get the 24px minimum of WCAG 2.5.8. Links inside a sentence are
+   exempt and keep their natural size. */
+
+.linkrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
+
+.linkrow a,
+.linkrow > li > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em; /* inline-flex eats the space before the ↗ */
+  min-block-size: 1.5rem;
+  text-decoration: none;
+}
+
+.linkrow a:hover {
+  text-decoration: underline;
+}
+
 /* --- Skip link ---------------------------------------------------- */
 
 .skip {
@@ -256,8 +297,7 @@ hr {
 .rail span {
   font-family: var(--font-mono);
   font-size: var(--step-rail);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--ink-strong);
   writing-mode: vertical-rl;
   transform: rotate(180deg);

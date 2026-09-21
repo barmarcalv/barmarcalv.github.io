@@ -74,8 +74,8 @@ import { links } from '../data/site';
         </p>
       </div>
 
-      <p class="meta about__cv">
-        <a href={links.linkedin} rel="noopener">LinkedIn &nearr;</a>
+      <p class="meta about__cv linkrow">
+        <a href={links.linkedin} rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
       </p>
     </div>
   </div>
@@ -111,9 +111,6 @@ import { links } from '../data/site';
   }
 
   .about__cv {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
     margin-block-start: 2rem;
     padding-block-start: 1.5rem;
     border-block-start: 1px solid var(--rule);
