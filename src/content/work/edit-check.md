@@ -1,7 +1,7 @@
 ---
 title: 'Edit Check & Suggestion Mode'
 tagline: 'Helping newcomers make an edit that survives'
-org: 'Wikimedia Foundation — Editing team'
+org: 'Wikimedia Foundation'
 role: 'Senior Product Designer'
 years: '2025 — present'
 order: 2

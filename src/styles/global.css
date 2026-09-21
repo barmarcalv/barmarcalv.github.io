@@ -9,9 +9,8 @@
 
 /* ---------------------------------------------------------------
    Tokens
-   The palette is one hue. --ink is the brand red used for headings,
-   links and body copy; --ink-strong is a deeper variant reserved for
-   small text. --ink-hover is what every interactive element moves to on
+   The palette is one hue: every piece of text is --ink. --ink-hover is
+   what every interactive element moves to on
    hover and on press: darker on light paper, lighter on dark paper, so the
    contrast always goes UP, never down. Images are never filtered;
    --placeholder is only what sits behind one before it loads.
@@ -19,7 +18,6 @@
 :root {
   --paper: #ffffff;
   --ink: #d23b1d;          /* 4.79:1 on paper - AA for body and large text */
-  --ink-strong: #a82d14;   /* 6.89:1 on paper - for small text and metadata */
   --ink-hover: #9d2a14;    /* 7.57:1 on paper - hover and active, AAA */
   --placeholder: color-mix(in srgb, var(--ink) 9%, var(--paper));
   /* Separators carry structure, so they meet the 3:1 floor WCAG 1.4.11
@@ -50,7 +48,6 @@
   :root:not([data-theme='light']) {
     --paper: #17100e;
     --ink: #f4805e;        /* 7.1:1 on the dark paper */
-    --ink-strong: #f9a288; /* small text needs MORE light on dark, not less */
     --ink-hover: #fcb8a0;  /* 11.19:1 - on dark paper, hover goes lighter */
     --placeholder: color-mix(in srgb, var(--ink) 12%, var(--paper));
     --rule: color-mix(in srgb, var(--ink) 55%, transparent);
@@ -61,7 +58,6 @@
 :root[data-theme='dark'] {
   --paper: #17100e;
   --ink: #f4805e;
-  --ink-strong: #f9a288;
   --ink-hover: #fcb8a0;
   --placeholder: color-mix(in srgb, var(--ink) 12%, var(--paper));
   --rule: color-mix(in srgb, var(--ink) 55%, transparent);
@@ -212,14 +208,14 @@ hr {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-strong);
+  color: var(--ink);
   margin: 0;
 }
 
 .meta {
   font-family: var(--font-mono);
   font-size: var(--step-small);
-  color: var(--ink-strong);
+  color: var(--ink);
   letter-spacing: 0.01em;
 }
 
@@ -233,6 +229,21 @@ hr {
   font-style: italic;
   font-size: clamp(1.05rem, 1vw + 0.85rem, 1.25rem);
   letter-spacing: -0.01em;
+}
+
+/* --- Pill --------------------------------------------------------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.5rem;
+  padding-inline: 0.65rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--step-small);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 /* --- Link lists --------------------------------------------------
@@ -298,7 +309,7 @@ hr {
   font-family: var(--font-mono);
   font-size: var(--step-rail);
   letter-spacing: 0.04em;
-  color: var(--ink-strong);
+  color: var(--ink);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   white-space: nowrap;

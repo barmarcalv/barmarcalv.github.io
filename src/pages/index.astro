@@ -4,19 +4,19 @@ import Frame from '../components/Frame.astro';
 import { getCollection } from 'astro:content';
 import { links } from '../data/site';
 
+// The home shows only the current Wikimedia work; /work has the rest.
 const work = (await getCollection('work'))
   .filter((e) => !e.data.draft)
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 2);
 
-const writing = (await getCollection('writing')).sort((a, b) =>
-  b.data.date.localeCompare(a.data.date)
-);
+const writing = (await getCollection('writing'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 3);
 
 const illos = (await getCollection('gallery'))
   .filter((e) => e.data.section === 'illustration')
   .sort((a, b) => a.data.order - b.data.order);
-
-const year = (d: string) => d.slice(0, 4);
 
 // Where each piece of work can be seen. The earlier client work is under
 // agreement, so it gets a description instead of a link.
@@ -103,15 +103,21 @@ const instead: Record<string, string> = {
   <!-- Writing & talks -->
   <section class="page section">
     <div class="head-row">
-      <h2 id="writing-heading">Writing &amp; Talks</h2>
-      <a class="meta head-row__more" href="/writing" aria-label="View more writing and talks">View more <span aria-hidden="true">→</span></a>
+      <h2 id="writing-heading">Selected talks</h2>
+      <a class="meta head-row__more" href="/writing" aria-label="View more talks and writing">View more <span aria-hidden="true">→</span></a>
     </div>
 
     <ul class="notes" aria-labelledby="writing-heading">
       {
         writing.map((entry) => (
           <li class="note">
-            <p class="meta note__year">{year(entry.data.date)}</p>
+            <p class="meta note__where">
+              <span class="pill">{entry.data.kind}</span>
+              <span>
+                {entry.data.venue}
+                {entry.data.lang !== 'English' && <span> &middot; in {entry.data.lang}</span>}
+              </span>
+            </p>
             <p class="note__title">
               <a
                 href={entry.data.href}
@@ -120,10 +126,6 @@ const instead: Record<string, string> = {
               >
                 {entry.data.title} <span aria-hidden="true">↗</span>
               </a>
-            </p>
-            <p class="meta note__where">
-              {entry.data.kind} &middot; {entry.data.venue}
-              {entry.data.lang !== 'English' && <span> &middot; in {entry.data.lang}</span>}
             </p>
           </li>
         ))
@@ -139,8 +141,9 @@ const instead: Record<string, string> = {
     </div>
 
     <p class="intro">
-      I studied Fine Arts before I studied design, and I never stopped drawing. Prints,
-      cards and commissions, made as Be Mart.
+      I studied Fine Arts before working as a product designer, and I never stopped
+      drawing. Prints, cards and commissions, made as{' '}
+      <a href={links.instagram} rel="noopener">Be Mart</a>.
     </p>
 
     <div class="strip" role="region" aria-labelledby="illo-heading" tabindex="0">
@@ -159,9 +162,6 @@ const instead: Record<string, string> = {
       </ul>
     </div>
 
-    <p class="meta strip__links linkrow">
-      <a href={links.instagram} rel="noopener">Latest on Instagram <span aria-hidden="true">↗</span></a>
-    </p>
   </section>
 </Base>
 
@@ -250,7 +250,10 @@ const instead: Record<string, string> = {
     border-block-end: 1px solid var(--rule);
   }
 
+  /* The border under these links is the affordance, so hover darkens it
+     instead of adding a second underline on top. */
   .case__links a:hover {
+    text-decoration: none;
     border-block-end-color: currentColor;
   }
 
@@ -268,10 +271,17 @@ const instead: Record<string, string> = {
 
   @media (min-width: 52rem) {
     .note {
-      grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 17rem);
+      grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
       gap: 2rem;
       align-items: baseline;
     }
+  }
+
+  .note__where {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.65rem;
   }
 
   .note__title {
@@ -320,7 +330,4 @@ const instead: Record<string, string> = {
     scroll-snap-align: start;
   }
 
-  .strip__links {
-    margin-block-start: 1rem;
-  }
 </style>
