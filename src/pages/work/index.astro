@@ -25,14 +25,6 @@ const work = (await getCollection('work'))
       {
         work.map((entry) => (
           <li class="case">
-            <div class="case__thumb">
-              <Frame
-                src={entry.data.cover}
-                alt={entry.data.coverAlt ?? ''}
-                ratio="16 / 10"
-              />
-            </div>
-
             <div class="case__text">
               <p class="meta">
                 {entry.data.org} &middot; {entry.data.years}
@@ -54,6 +46,14 @@ const work = (await getCollection('work'))
                   ))}
                 </ul>
               )}
+            </div>
+
+            <div class="case__thumb">
+              <Frame
+                src={entry.data.cover}
+                alt={entry.data.coverAlt ?? ''}
+                ratio="16 / 10"
+              />
             </div>
           </li>
         ))
@@ -80,7 +80,7 @@ const work = (await getCollection('work'))
 
   @media (min-width: 48rem) {
     .case {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 3rem;
     }
   }

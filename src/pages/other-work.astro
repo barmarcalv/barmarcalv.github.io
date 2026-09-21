@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Frame from '../components/Frame.astro';
 import { getCollection } from 'astro:content';
-import { links } from '../data/site';
 
 const pieces = (await getCollection('gallery'))
   .filter((e) => e.data.section === 'other')
@@ -41,10 +40,6 @@ const pieces = (await getCollection('gallery'))
       }
     </ul>
 
-    <p class="archive meta">
-      Earlier graphic design, from art school and the years just after, lives on{' '}
-      <a href={links.behance} rel="noopener">Behance</a>.
-    </p>
   </div>
 </Base>
 
@@ -61,9 +56,4 @@ const pieces = (await getCollection('gallery'))
     font-weight: 500;
   }
 
-  .archive {
-    margin-block-start: clamp(2.5rem, 6vw, 4rem);
-    padding-block-start: 1.5rem;
-    border-block-start: 1px solid var(--rule);
-  }
 </style>
