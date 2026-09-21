@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
+import Frame from '../components/Frame.astro';
 import { links } from '../data/site';
 
 const channels = [
@@ -15,61 +15,103 @@ const channels = [
   title="Contact"
   description="Get in touch with Bárbara Martínez — product design, design systems, illustration."
 >
-  <PageHead eyebrow="Contact" title="Say hola.">
-    <p class="lede">
-      Happy to talk about product design, design systems, accessibility, illustration,
-      or anything related. The fastest route is email.
-    </p>
-  </PageHead>
+  <div class="page contact">
+    <div class="contact__portrait">
+      <Frame
+        src="/img/about/barbara.webp"
+        alt="Bárbara Martínez, looking off to one side"
+        ratio="4 / 5"
+      />
+    </div>
 
-  <div class="page">
-    <ul class="channels">
-      {
-        channels.map((c) => (
-          <li class="channel">
-            <p class="label">{c.label}</p>
-            <p class="channel__value mono">
-              <a href={c.href} rel="noopener">
-                {c.value}
-              </a>
-            </p>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="contact__text">
+      <p class="label">Contact</p>
+      <h1>Say hola.</h1>
 
-    <p class="note">
-      Based in Madrid, working remotely. Available in Spanish and English.
-    </p>
+      <p class="lede contact__lede">
+        Happy to talk about product design, design systems, accessibility, illustration,
+        or anything related. The fastest route is email.
+      </p>
+
+      <ul class="channels">
+        {
+          channels.map((c) => (
+            <li class="channel">
+              <p class="label">{c.label}</p>
+              <p class="channel__value mono">
+                <a href={c.href} rel="noopener">
+                  {c.value}
+                </a>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="note">
+        Based in Madrid, working remotely. Available in Spanish and English.
+      </p>
+    </div>
   </div>
 </Base>
 
 <style>
+  .contact {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    padding-block-start: clamp(1.5rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+
+  @media (min-width: 52rem) {
+    .contact {
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .contact__portrait {
+      position: sticky;
+      top: 2.5rem;
+    }
+  }
+
+  .contact h1 {
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem);
+    margin-block-start: 0.6rem;
+  }
+
+  .contact__lede {
+    margin-block-start: clamp(1.25rem, 3vw, 1.75rem);
+  }
+
   .channels {
-    padding-block-start: 1rem;
+    margin-block-start: clamp(2rem, 4vw, 3rem);
+    border-block-start: 1px solid var(--rule);
   }
 
   .channel {
-    padding-block: clamp(1.25rem, 3vw, 1.75rem);
+    padding-block: clamp(1.1rem, 2.5vw, 1.5rem);
     border-block-end: 1px solid var(--rule-soft);
   }
 
   @media (min-width: 40rem) {
     .channel {
       display: grid;
-      grid-template-columns: 10rem minmax(0, 1fr);
+      grid-template-columns: 8rem minmax(0, 1fr);
       gap: 1.5rem;
       align-items: baseline;
     }
   }
 
   .channel__value {
-    font-size: clamp(1.15rem, 1rem + 0.9vw, 1.6rem);
+    font-size: clamp(1.1rem, 1rem + 0.7vw, 1.45rem);
     font-weight: 500;
     letter-spacing: -0.015em;
   }
 
   .channel__value a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 1.5rem;
     text-decoration: none;
   }
 
@@ -79,6 +121,6 @@ const channels = [
   }
 
   .note {
-    margin-block-start: clamp(2.5rem, 5vw, 3.5rem);
+    margin-block-start: clamp(2rem, 4vw, 2.75rem);
   }
 </style>
