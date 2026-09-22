@@ -3,7 +3,7 @@ export const site = {
   shortName: 'Bárbara Martínez',
   role: 'Senior Product Designer',
   location: 'Madrid, Spain',
-  railLabel: 'Personal portfolio',
+  railLabel: 'Bárbara Martínez',
   description:
     'Senior Product Designer at the Wikimedia Foundation. Design systems, accessibility and internationalization. Based in Madrid.',
 };

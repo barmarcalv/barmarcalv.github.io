@@ -1,5 +1,6 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
 @import '@fontsource/ibm-plex-mono/700.css';
 @import '@fontsource/ibm-plex-mono/400-italic.css';
 @import '@fontsource/ibm-plex-sans/400.css';
@@ -258,6 +259,11 @@ hr {
   font-size: var(--step-small);
   line-height: 1;
   white-space: nowrap;
+}
+
+/* Links that render at 16px carry their weight in semibold. */
+.meta a {
+  font-weight: 600;
 }
 
 /* --- Rows of external links --------------------------------------- */

@@ -27,11 +27,21 @@ const { href, lang, class: cls, arrow = true } = Astro.props;
 </a>
 
 <style>
+  /* The underline sits on the label, not on the anchor, so the arrow
+     stays clear of it. */
   .extlink {
     display: inline-flex;
     align-items: baseline;
     gap: 0.35em;
     min-block-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .extlink:hover {
+    text-decoration: none;
+  }
+
+  .extlink__label {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.22em;

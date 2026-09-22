@@ -4,7 +4,7 @@ tagline: 'Other product design work, for very different kinds of companies'
 org: 'Earlier'
 role: 'Product Designer'
 years: '2016 — 2018'
-order: 4
+order: 5
 summary: 'End-to-end client work for different clients on online banking, food, events, and tools for a regional government, among other sectors.'
 cover: '/img/work/product-design.webp'
 coverAlt: 'Three phone screens from a music and concerts app: genre picker, concert discovery and upcoming gigs'

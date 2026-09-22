@@ -26,7 +26,7 @@ const channels = [
 
     <div class="contact__text">
       <p class="label">Contact</p>
-      <h1>Say hola.</h1>
+      <h1>Say hola</h1>
 
       <p class="lede contact__lede">
         Happy to talk about product design, design systems, accessibility, illustration,
@@ -44,8 +44,7 @@ const channels = [
                   target={c.href.startsWith('mailto:') ? undefined : '_blank'}
                   rel="noopener noreferrer"
                 >
-                  {c.value}
-                  {!c.href.startsWith('mailto:') && (
+                  {c.value}{!c.href.startsWith('mailto:') && (
                     <span class="visually-hidden">(opens in a new tab)</span>
                   )}
                 </a>
