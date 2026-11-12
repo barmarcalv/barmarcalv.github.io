@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import Frame from '../../components/Frame.astro';
 import ExtLink from '../../components/ExtLink.astro';
+import Case from '../../components/Case.astro';
 import { getCollection } from 'astro:content';
 
 const work = (await getCollection('work'))
@@ -26,6 +27,7 @@ const work = (await getCollection('work'))
       {
         work.map((entry) => (
           <li class="case">
+            <div class="case__main">
             <div class="case__text">
               <p class="meta">
                 {entry.data.org} &middot; {entry.data.years}
@@ -48,6 +50,9 @@ const work = (await getCollection('work'))
                 ratio="16 / 10"
               />
             </div>
+            </div>
+
+            {entry.body?.trim() && <Case entry={entry} />}
           </li>
         ))
       }
@@ -61,9 +66,6 @@ const work = (await getCollection('work'))
   }
 
   .case {
-    display: grid;
-    gap: 1.5rem;
-    align-items: start;
     padding-block: clamp(2rem, 4.5vw, 3rem);
   }
 
@@ -71,8 +73,16 @@ const work = (await getCollection('work'))
     border-block-start: 1px solid var(--rule-soft);
   }
 
+  /* Text and cover sit side by side; an open case runs the full width
+     underneath them, where it has room for figures. */
+  .case__main {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
   @media (min-width: 48rem) {
-    .case {
+    .case__main {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 3rem;
     }

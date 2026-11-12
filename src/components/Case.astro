@@ -1,0 +1,219 @@
+---
+/**
+ * The long version of a project, folded away until someone asks for it.
+ *
+ * A native <details>, so it works with no JavaScript, is operable from the
+ * keyboard, and is announced as a disclosure by a screen reader. The list
+ * of projects stays short for the people who only want to scan it; the
+ * people who want the thinking can open one.
+ */
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'work'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const facts = entry.data.caseFacts ?? [];
+---
+
+<details class="case-fold">
+  <summary>
+    <span class="case-fold__label">
+      <span class="case-fold__open">Read the case</span>
+      <span class="case-fold__close">Close the case</span>
+    </span>
+    <span class="case-fold__chev" aria-hidden="true"></span>
+  </summary>
+
+  <div class="case-fold__body">
+    {
+      facts.length > 0 && (
+        <dl class="case-facts">
+          {facts.map((f) => (
+            <div class="case-facts__item">
+              <dt class="label">{f.label}</dt>
+              <dd class="meta">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</details>
+
+<style>
+  .case-fold {
+    margin-block-start: 1.5rem;
+    border-block-start: 1px solid var(--rule-soft);
+  }
+
+  /* The summary is the control, so it carries the 24px target of WCAG
+     2.5.8 and loses the default triangle in favour of our own chevron. */
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-block-size: 2.75rem;
+    padding-block: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--step-small);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover {
+    color: var(--ink-hover);
+  }
+
+  /* The label is underlined so the control never rests on colour alone. */
+  .case-fold__label {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .case-fold__close {
+    display: none;
+  }
+
+  .case-fold[open] .case-fold__open {
+    display: none;
+  }
+
+  .case-fold[open] .case-fold__close {
+    display: inline;
+  }
+
+  /* A chevron drawn in CSS: two borders rotated. It is decorative — the
+     label already says what the control does. */
+  .case-fold__chev {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-0.15em) rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+
+  .case-fold[open] .case-fold__chev {
+    transform: translateY(0.1em) rotate(225deg);
+  }
+
+  /* The prose is capped at a readable measure; the facts strip is not,
+     so it can use the full width and stop wrapping four words deep. */
+  .case-fold__body {
+    padding-block: 0.5rem 2.5rem;
+  }
+
+  .prose {
+    max-inline-size: var(--measure);
+  }
+
+  /* --- The facts strip --------------------------------------------- */
+
+  .case-facts {
+    display: grid;
+    gap: 1rem 2.5rem;
+    margin: 0 0 2.25rem;
+    padding-block-end: 1.5rem;
+    border-block-end: 1px solid var(--rule-soft);
+  }
+
+  /* Subgrid puts every label on one row and every value on the next, so
+     the strip reads across as well as down. */
+  @media (min-width: 34rem) {
+    .case-facts {
+      grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+      grid-template-rows: auto auto;
+    }
+
+    .case-facts__item {
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+    }
+  }
+
+  .case-facts__item {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+
+  .case-facts dd {
+    margin: 0;
+  }
+
+  /* --- Markdown coming out of the entry body ------------------------ */
+
+  .prose :global(> * + *) {
+    margin-block-start: 1.15rem;
+  }
+
+  .prose :global(h3) {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-block-start: 2.75rem;
+  }
+
+  .prose :global(h3 + *) {
+    margin-block-start: 0.85rem;
+  }
+
+  .prose :global(ul) {
+    display: grid;
+    gap: 0.6rem;
+    padding-inline-start: 1.1rem;
+    list-style: disc;
+    max-inline-size: var(--measure);
+  }
+
+  .prose :global(li::marker) {
+    color: var(--rule);
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+  }
+
+  .prose :global(a) {
+    font-weight: 500;
+  }
+
+  .prose :global(figure) {
+    margin: 2rem 0;
+  }
+
+  .prose :global(figcaption) {
+    font-family: var(--font-mono);
+    font-size: var(--step-small);
+    margin-block-start: 0.6rem;
+  }
+
+  .prose :global(img) {
+    border-radius: 2px;
+  }
+
+  /* A pulled-out number, for a result worth seeing on its own. */
+  .prose :global(blockquote) {
+    margin: 2rem 0;
+    padding-inline-start: 1.25rem;
+    border-inline-start: 2px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: clamp(1.05rem, 1vw + 0.85rem, 1.2rem);
+    letter-spacing: -0.01em;
+  }
+</style>

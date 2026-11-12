@@ -16,6 +16,10 @@ const work = defineCollection({
     links: z
       .array(z.object({ label: z.string(), href: z.string() }))
       .default([]),
+    /* The at-a-glance strip at the top of an opened case. */
+    caseFacts: z
+      .array(z.object({ label: z.string(), value: z.string() }))
+      .default([]),
     draft: z.boolean().default(false),
   }),
 });
